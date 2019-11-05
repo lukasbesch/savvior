@@ -61,9 +61,23 @@ Grid.prototype.addColumns = function(items, options) {
 
   columnClasses = Array.isArray(columnClasses) ? columnClasses.join(' ') : columnClasses;
 
-  while (i-- !== 0) {
-    childSelector = '[data-columns] > *:nth-child(' + options.columns + 'n-' + i + ')';
-    columnsItems.push(items.querySelectorAll(childSelector));
+  if (!options.filter) {
+    while (i-- !== 0) {
+      columnsItems.push([]);
+    }
+    for (var j = 0; j < items.children.length; j++) {
+      var item = items.children[j];
+      var targetColumn = j % options.columns;
+      if (items.dataset.columnPosition) {
+        targetColumn = parseInt(item.dataset.columnPosition, 10) % options.columns;
+      }
+      columnsItems[targetColumn].push(item);
+    }
+  } else {
+    while (i-- !== 0) {
+      childSelector = '[data-columns] > *:nth-child(' + options.columns + 'n-' + i + ')';
+      columnsItems.push(items.querySelectorAll(childSelector));
+    }
   }
 
   each(columnsItems, function(rows) {
