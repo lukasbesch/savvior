@@ -68,7 +68,7 @@ Grid.prototype.addColumns = function(items, options) {
     for (var j = 0; j < items.children.length; j++) {
       var item = items.children[j];
       var targetColumn = j % options.columns;
-      if (items.dataset.columnPosition) {
+      if (item.dataset.columnPosition) {
         targetColumn = parseInt(item.dataset.columnPosition, 10) % options.columns;
       }
       columnsItems[targetColumn].push(item);
